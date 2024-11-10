@@ -40,7 +40,7 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data); // handle form submission here
   };
 
