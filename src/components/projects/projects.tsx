@@ -20,7 +20,7 @@ const Projects = () => {
 
   const handleOpenDialog = (project: IProjects) => {
     setSelectedProject(project);
-    setCurrentImageIndex(0); // Start with the first image
+    setCurrentImageIndex(0);
     setOpen(true);
   };
 
