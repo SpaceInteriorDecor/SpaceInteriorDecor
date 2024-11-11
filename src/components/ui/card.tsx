@@ -18,6 +18,7 @@ const Card = ({ title, imgSrc, onClick }: Props) => {
         }}
         whileTap={{ scale: 0.9 }}
         onClick={onClick}
+        className="height-72 w-72 cursor-pointer"
       >
         <Image
           src={imgSrc}
@@ -26,7 +27,7 @@ const Card = ({ title, imgSrc, onClick }: Props) => {
           height={300}
           className="rounded-lg"
         />
-        <p className="text-center mt-2">{title}</p>
+        <p className="mt-2">{title}</p>
       </motion.div>
     </FadeInDiv>
   );
