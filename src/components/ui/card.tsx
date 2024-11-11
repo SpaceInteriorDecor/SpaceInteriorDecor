@@ -3,27 +3,30 @@ import FadeInDiv from "../fade-in-div";
 import Image from "next/image";
 import { motion } from "framer-motion";
 type Props = {
-  title: string;
+  title?: string;
+  imgSrc: string;
+  onClick?: () => void;
 };
 
-const Card = ({ title }: Props) => {
+const Card = ({ title, imgSrc, onClick }: Props) => {
   return (
     <FadeInDiv delay={0.5}>
       <motion.div
         whileHover={{
-          scale: 1.2,
-          transition: { duration: 1 },
+          scale: 1.08,
+          transition: { duration: 0.5 },
         }}
         whileTap={{ scale: 0.9 }}
+        onClick={onClick}
       >
         <Image
-          src="https://cdn.pixabay.com/photo/2016/11/22/19/11/brick-wall-1850095_960_720.jpg"
+          src={imgSrc}
           alt="Space-Inspired Room"
           width={200}
           height={300}
           className="rounded-lg"
         />
-        {title}
+        <p className="text-center mt-2">{title}</p>
       </motion.div>
     </FadeInDiv>
   );
