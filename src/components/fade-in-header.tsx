@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 type Props = {
@@ -7,10 +7,15 @@ type Props = {
 };
 
 const FadeInHeader = ({ children, className }: Props) => {
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  useEffect(() => {
+    // Set isInitialRender to false after the first render
+    setIsInitialRender(false);
+  }, []);
   return (
     <div>
       <motion.h1
-        initial={{ opacity: 0.5, y: 100 }}
+        initial={isInitialRender ? { opacity: 0.5, y: 100 } : ""}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
           delay: 0.3,
