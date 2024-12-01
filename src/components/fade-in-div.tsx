@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 type Props = {
   children: React.ReactNode;
@@ -7,9 +7,14 @@ type Props = {
 };
 
 const FadeInDiv = ({ children, className, delay = 0.3 }: Props) => {
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  useEffect(() => {
+    // Set isInitialRender to false after the first render
+    setIsInitialRender(false);
+  }, []);
   return (
     <motion.div
-      initial={{ opacity: 0.5, y: 100 }}
+      initial={isInitialRender ? { opacity: 0.5, y: 100 } : ""}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
         delay: delay,
