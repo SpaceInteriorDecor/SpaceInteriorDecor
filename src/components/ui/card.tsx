@@ -5,12 +5,13 @@ import { motion } from "framer-motion";
 type Props = {
   title?: string;
   imgSrc: string;
+  className?: string;
   onClick?: () => void;
 };
 
-const Card = ({ title, imgSrc, onClick }: Props) => {
+const Card = ({ title, imgSrc, onClick, className }: Props) => {
   return (
-    <FadeInDiv delay={0.5}>
+    <FadeInDiv delay={0.5} className={`${className}`}>
       <motion.div
         whileHover={{
           scale: 1.08,
