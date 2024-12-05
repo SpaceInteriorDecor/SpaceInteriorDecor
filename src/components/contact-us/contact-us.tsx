@@ -2,9 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { Send, User, Mail, MessageCircle } from "lucide-react";
+import { Send, User, Mail, MessageCircle, Loader2 } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
@@ -28,9 +29,7 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
+  message: z.string(),
 });
 
 export function ContactForm() {
@@ -43,8 +42,10 @@ export function ContactForm() {
     },
   });
 
-  // Update onSubmit in your ContactForm component
+  const [isLoading, setIsLoading] = useState(false); // State to track loading status
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true); // Set loading state to true
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -55,28 +56,21 @@ export function ContactForm() {
       });
 
       if (response.ok) {
-        console.log(response);
-        // Show success message
         toast.success("Message sent successfully!");
-
-        // form.reset(); // Reset form after successful submission
+        form.reset();
       } else {
-        // Handle error
         toast.error("Failed to send message");
-        const err = await response.json();
-        console.log(err);
       }
     } catch (error) {
-      console.error("Submission error:", error);
       toast.error("An error occurred");
+    } finally {
+      setIsLoading(false); // Set loading state to false
     }
   };
+
   return (
     <>
-      <>
-        {/* Toaster for notifications */}
-        <Toaster position="bottom-center" />
-      </>
+      <Toaster position="bottom-center" />
       <FadeInDiv className="relative">
         <div
           className="absolute -inset-2 bg-cyan-500/10 rounded-3xl blur-2xl scroll-mt-[100px]"
@@ -178,19 +172,20 @@ export function ContactForm() {
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 group"
+                disabled={isLoading} // Disable button when loading
               >
-                <Send
-                  className="mr-2 group-hover:rotate-45 transition-transform"
-                  size={20}
-                />
-                Submit Message
+                {isLoading ? (
+                  <Loader2 className="animate-spin mr-2" size={20} />
+                ) : (
+                  <Send
+                    className="mr-2 group-hover:rotate-45 transition-transform"
+                    size={20}
+                  />
+                )}
+                {isLoading ? "Sending..." : "Submit Message"}
               </Button>
             </form>
           </Form>
-
-          {/* Decorative Elements */}
-          <div className="absolute -top-10 -left-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
         </motion.div>
       </FadeInDiv>
     </>
