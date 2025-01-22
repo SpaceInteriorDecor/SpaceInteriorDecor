@@ -1,5 +1,6 @@
 "use client";
 import Banner from "@/components/banner/banner";
+import BusinessCard from "@/components/business-card/business-card";
 import { ContactForm } from "@/components/contact-us/contact-us";
 import Projects from "@/components/projects/projects";
 
@@ -26,7 +27,8 @@ export default function Home() {
             <Projects />
           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-28">
+            <BusinessCard />
             <ContactForm />
           </div>
         </div>
